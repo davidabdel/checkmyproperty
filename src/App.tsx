@@ -8,7 +8,6 @@ import { motion, AnimatePresence } from 'motion/react';
 import { CheckCircle2, Loader2, MapPin, Info, ChevronRight, MessageSquare, Check, User, Mail, Phone } from 'lucide-react';
 import Autocomplete from 'react-google-autocomplete';
 import confetti from 'canvas-confetti';
-import logo from './assets/logo.png';
 
 type Screen = 'input' | 'loading' | 'result';
 type SpaSize = '2.0m²' | '2.3m²' | 'Swim Spa';
@@ -120,7 +119,7 @@ export default function App() {
         className="mb-12"
       >
         <img
-          src={logo}
+          src="/logo.png"
           alt="Exclusive to Spa & Pool Approvals"
           className="h-16 md:h-24 w-auto object-contain"
           referrerPolicy="no-referrer"
