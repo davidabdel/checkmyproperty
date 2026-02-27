@@ -33,6 +33,7 @@ export default function App() {
   const [spaSize, setSpaSize] = useState<SpaSize>('2.0m²');
   const [loadingStep, setLoadingStep] = useState(-1);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [showQR, setShowQR] = useState(false);
 
   const handleCheck = async () => {
     const newErrors: Record<string, string> = {};
@@ -259,12 +260,58 @@ export default function App() {
               </button>
             </div>
 
-            <div className="flex items-center justify-center gap-2 text-navy/40 text-sm">
-              <Info className="w-4 h-4" />
-              <span>AI pre-check takes approximately 30 seconds</span>
+            <div className="flex flex-col items-center gap-4">
+              <div className="flex items-center justify-center gap-2 text-navy/40 text-sm">
+                <Info className="w-4 h-4" />
+                <span>AI pre-check takes approximately 30 seconds</span>
+              </div>
+              <button
+                onClick={() => setShowQR(true)}
+                className="text-navy/60 hover:text-navy text-sm font-semibold flex items-center gap-2 transition-colors"
+              >
+                QR Code
+              </button>
             </div>
           </motion.div>
         )}
+
+        <AnimatePresence>
+          {showQR && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setShowQR(false)}
+              className="fixed inset-0 bg-navy/60 backdrop-blur-sm z-[60] flex items-center justify-center p-4"
+            >
+              <motion.div
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.9, opacity: 0 }}
+                onClick={(e) => e.stopPropagation()}
+                className="bg-white p-8 rounded-3xl shadow-2xl max-w-sm w-full text-center space-y-6"
+              >
+                <div className="space-y-2">
+                  <h3 className="text-2xl font-bold text-navy">Property Check</h3>
+                  <p className="text-navy/60">Scan to start your application</p>
+                </div>
+                <div className="bg-white border-4 border-gray-50 rounded-2xl p-4 aspect-square flex items-center justify-center">
+                  <img
+                    src="/qr-code.png"
+                    alt="Scan me"
+                    className="w-full h-full object-contain"
+                  />
+                </div>
+                <button
+                  onClick={() => setShowQR(false)}
+                  className="w-full py-4 bg-gray-100 hover:bg-gray-200 text-navy font-bold rounded-2xl transition-colors"
+                >
+                  Close
+                </button>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {screen === 'loading' && (
           <motion.div
