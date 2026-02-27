@@ -77,18 +77,26 @@ export default function App() {
     let currentStep = 0;
     setLoadingStep(0);
 
-    const interval = setInterval(() => {
-      currentStep++;
-      if (currentStep < LOADING_STEPS.length) {
-        setLoadingStep(currentStep);
-      } else {
-        clearInterval(interval);
-        setTimeout(() => {
-          setScreen('result');
-          triggerConfetti();
-        }, 1500);
-      }
-    }, 1500); // 1.5s per step * 9 steps = 13.5s + final delay = ~15s
+    const processNextStep = () => {
+      // Random delay between 2.5s and 4.5s for each step
+      // 9 steps * ~3.5s avg = ~31.5s total
+      const randomDelay = 2500 + Math.random() * 2000;
+
+      setTimeout(() => {
+        currentStep++;
+        if (currentStep < LOADING_STEPS.length) {
+          setLoadingStep(currentStep);
+          processNextStep();
+        } else {
+          setTimeout(() => {
+            setScreen('result');
+            triggerConfetti();
+          }, 1500);
+        }
+      }, randomDelay);
+    };
+
+    processNextStep();
   };
 
   const triggerConfetti = () => {
@@ -253,7 +261,7 @@ export default function App() {
 
             <div className="flex items-center justify-center gap-2 text-navy/40 text-sm">
               <Info className="w-4 h-4" />
-              <span>AI pre-check takes approximately 15 seconds</span>
+              <span>AI pre-check takes approximately 30 seconds</span>
             </div>
           </motion.div>
         )}
@@ -324,16 +332,19 @@ export default function App() {
 
             <div className="space-y-4">
               <h1 className="text-4xl font-bold text-navy tracking-tight">
-                Your Property Qualifies for CDC Approval
+                Your property Qualifies for an Approval *
               </h1>
               <p className="text-navy/60 text-lg max-w-md mx-auto">
                 Based on AI pre-assessment of zoning and compliance controls.
+              </p>
+              <p className="text-navy/40 text-xs mt-2 italic">
+                * Subject to documentation and title
               </p>
             </div>
 
             <div className="space-y-4 pt-4">
               <a
-                href="https://swimspaapprovals.com.au/new_application"
+                href="https://api.uconnect.com.au/payment-link/69a1374c3413b5043df95af7"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="primary-button inline-flex items-center justify-center"
