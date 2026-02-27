@@ -32,6 +32,7 @@ export default function App() {
   const [address, setAddress] = useState('');
   const [spaSize, setSpaSize] = useState<SpaSize>('2.0m²');
   const [loadingStep, setLoadingStep] = useState(-1);
+  const [promoCode, setPromoCode] = useState('');
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [showQR, setShowQR] = useState(false);
 
@@ -63,6 +64,7 @@ export default function App() {
           phone,
           address,
           spaSize,
+          promoCode,
           timestamp: new Date().toISOString(),
           source: 'Spa Approval Checker'
         }),
@@ -249,6 +251,22 @@ export default function App() {
                 </div>
               </div>
 
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-navy/80 uppercase tracking-wider">
+                  Discount Code (Optional)
+                </label>
+                <div className="relative">
+                  <MessageSquare className="absolute left-4 top-1/2 -translate-y-1/2 text-navy/40 w-5 h-5" />
+                  <input
+                    type="text"
+                    value={promoCode}
+                    onChange={(e) => setPromoCode(e.target.value.toUpperCase())}
+                    className="w-full pl-12 pr-4 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-accent/20 focus:border-accent transition-all text-navy placeholder:text-navy/30"
+                    placeholder="Enter code (e.g. SPASH50)"
+                  />
+                </div>
+              </div>
+
               <button
                 onClick={handleCheck}
                 className="primary-button group"
@@ -275,43 +293,41 @@ export default function App() {
           </motion.div>
         )}
 
-        <AnimatePresence>
-          {showQR && (
+        {showQR && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setShowQR(false)}
+            className="fixed inset-0 bg-navy/60 backdrop-blur-sm z-[60] flex items-center justify-center p-4"
+          >
             <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setShowQR(false)}
-              className="fixed inset-0 bg-navy/60 backdrop-blur-sm z-[60] flex items-center justify-center p-4"
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              onClick={(e) => e.stopPropagation()}
+              className="bg-white p-8 rounded-3xl shadow-2xl max-w-sm w-full text-center space-y-6"
             >
-              <motion.div
-                initial={{ scale: 0.9, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                exit={{ scale: 0.9, opacity: 0 }}
-                onClick={(e) => e.stopPropagation()}
-                className="bg-white p-8 rounded-3xl shadow-2xl max-w-sm w-full text-center space-y-6"
+              <div className="space-y-2">
+                <h3 className="text-2xl font-bold text-navy">Property Check</h3>
+                <p className="text-navy/60">Scan to start your application</p>
+              </div>
+              <div className="bg-white border-4 border-gray-50 rounded-2xl p-4 aspect-square flex items-center justify-center">
+                <img
+                  src="/qr-code.png"
+                  alt="Scan me"
+                  className="w-full h-full object-contain"
+                />
+              </div>
+              <button
+                onClick={() => setShowQR(false)}
+                className="w-full py-4 bg-gray-100 hover:bg-gray-200 text-navy font-bold rounded-2xl transition-colors"
               >
-                <div className="space-y-2">
-                  <h3 className="text-2xl font-bold text-navy">Property Check</h3>
-                  <p className="text-navy/60">Scan to start your application</p>
-                </div>
-                <div className="bg-white border-4 border-gray-50 rounded-2xl p-4 aspect-square flex items-center justify-center">
-                  <img
-                    src="/qr-code.png"
-                    alt="Scan me"
-                    className="w-full h-full object-contain"
-                  />
-                </div>
-                <button
-                  onClick={() => setShowQR(false)}
-                  className="w-full py-4 bg-gray-100 hover:bg-gray-200 text-navy font-bold rounded-2xl transition-colors"
-                >
-                  Close
-                </button>
-              </motion.div>
+                Close
+              </button>
             </motion.div>
-          )}
-        </AnimatePresence>
+          </motion.div>
+        )}
 
         {screen === 'loading' && (
           <motion.div
@@ -391,7 +407,7 @@ export default function App() {
 
             <div className="space-y-4 pt-4">
               <a
-                href="https://api.uconnect.com.au/payment-link/69a1374c3413b5043df95af7"
+                href={`https://api.uconnect.com.au/payment-link/69a1374c3413b5043df95af7${promoCode ? `?prefilled_promo_code=${promoCode}` : ''}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="primary-button inline-flex items-center justify-center"
