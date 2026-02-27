@@ -77,7 +77,7 @@ export default function App() {
   const startLoadingSequence = () => {
     let currentStep = 0;
     setLoadingStep(0);
-    
+
     const interval = setInterval(() => {
       currentStep++;
       if (currentStep < LOADING_STEPS.length) {
@@ -99,7 +99,7 @@ export default function App() {
 
     const randomInRange = (min: number, max: number) => Math.random() * (max - min) + min;
 
-    const interval: any = setInterval(function() {
+    const interval: any = setInterval(function () {
       const timeLeft = animationEnd - Date.now();
 
       if (timeLeft <= 0) {
@@ -119,9 +119,9 @@ export default function App() {
         animate={{ opacity: 1, y: 0 }}
         className="mb-12"
       >
-        <img 
-          src={logo} 
-          alt="Pool + Spa Approvals" 
+        <img
+          src={logo}
+          alt="Exclusive to Spa & Pool Approvals"
           className="h-16 md:h-24 w-auto object-contain"
           referrerPolicy="no-referrer"
         />
@@ -138,7 +138,7 @@ export default function App() {
           >
             <div className="text-center space-y-2">
               <h1 className="text-3xl md:text-4xl font-bold text-navy tracking-tight">
-                Check If Your Spa Qualifies for CDC Approval
+                Exclusive to Spa & Pool Approvals
               </h1>
               <p className="text-navy/60 text-lg">
                 Instant AI-powered property pre-check
@@ -232,9 +232,8 @@ export default function App() {
                     <button
                       key={size}
                       onClick={() => setSpaSize(size)}
-                      className={`pill-button ${
-                        spaSize === size ? 'pill-button-active' : 'pill-button-inactive'
-                      }`}
+                      className={`pill-button ${spaSize === size ? 'pill-button-active' : 'pill-button-inactive'
+                        }`}
                     >
                       {size}
                     </button>
@@ -278,15 +277,15 @@ export default function App() {
                   <h2 className="text-xl font-bold text-navy">AI Compliance Check</h2>
                   <Loader2 className="w-6 h-6 text-accent animate-spin" />
                 </div>
-                
+
                 <div className="space-y-1">
                   {LOADING_STEPS.map((step, index) => (
                     <motion.div
                       key={step}
                       initial={{ opacity: 0, x: -10 }}
-                      animate={{ 
+                      animate={{
                         opacity: index <= loadingStep ? 1 : 0.3,
-                        x: 0 
+                        x: 0
                       }}
                       className="loading-item"
                     >
@@ -334,7 +333,7 @@ export default function App() {
             </div>
 
             <div className="space-y-4 pt-4">
-              <a 
+              <a
                 href="https://swimspaapprovals.com.au/new_application"
                 target="_blank"
                 rel="noopener noreferrer"
