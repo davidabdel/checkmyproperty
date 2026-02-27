@@ -407,7 +407,7 @@ export default function App() {
 
             <div className="space-y-4 pt-4">
               <a
-                href={`https://api.uconnect.com.au/payment-link/69a1374c3413b5043df95af7${promoCode ? `?prefilled_promo_code=${promoCode}` : ''}`}
+                href={`https://buy.stripe.com/aFa28rbpN3AygL75La6Ri01${promoCode ? `?prefilled_promo_code=${promoCode}` : ''}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="primary-button inline-flex items-center justify-center"
